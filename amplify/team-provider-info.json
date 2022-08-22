@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-mtudo-staging-165340-authRole",
+      "UnauthRoleArn": "arn:aws:iam::536335371704:role/amplify-mtudo-staging-165340-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::536335371704:role/amplify-mtudo-staging-165340-authRole",
+      "Region": "eu-west-3",
+      "DeploymentBucketName": "amplify-mtudo-staging-165340-deployment",
+      "UnauthRoleName": "amplify-mtudo-staging-165340-unauthRole",
+      "StackName": "amplify-mtudo-staging-165340",
+      "StackId": "arn:aws:cloudformation:eu-west-3:536335371704:stack/amplify-mtudo-staging-165340/7a27cc30-1fdf-11ed-9911-0ab7f3e95e4e",
+      "AmplifyAppId": "d2z4qp8gca4maj"
+    },
+    "categories": {
+      "auth": {
+        "mtudo3ba7e705": {}
+      }
+    }
+  }
+}
