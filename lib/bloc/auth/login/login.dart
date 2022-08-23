@@ -2,13 +2,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mtudo/auth/auth_repository.dart';
-import 'package:mtudo/auth/form_submition_status.dart';
-import 'package:mtudo/auth/login/login_event.dart';
-import '/screns/singin.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../auth_cubit.dart';
+import '../../../services/auth_repository.dart';
+import '../form_submition_status.dart';
 import 'login_bloc.dart';
+import 'login_event.dart';
 import 'login_state.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -17,13 +17,15 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: BlocProvider(
-            create: (context) =>
-                LoginBloc(authRepo: context.read<AuthRepository>()),
-            child: _loginForm(_formKey)));
+            create: (context) => LoginBloc(
+                  authRepo: context.read<AuthRepository>(),
+                  authCubit: context.read<AuthCubit>(),
+                ),
+            child: _loginForm(_formKey, context)));
   }
 }
 
-Widget _loginForm(GlobalKey<FormState> _formKey) {
+Widget _loginForm(GlobalKey<FormState> _formKey, BuildContext context) {
   return Container(
     decoration: BoxDecoration(
         image: DecorationImage(
@@ -78,7 +80,9 @@ Widget _loginForm(GlobalKey<FormState> _formKey) {
                     children: [
                       Text("Hesabin yok mu? "),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          context.read<AuthCubit>().showSignUp();
+                        },
                         child: Text(
                           "Kaydol",
                           style: TextStyle(

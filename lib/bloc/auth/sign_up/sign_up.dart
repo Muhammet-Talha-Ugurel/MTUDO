@@ -2,29 +2,30 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mtudo/auth/auth_repository.dart';
-import 'package:mtudo/auth/form_submition_status.dart';
-import 'package:mtudo/auth/login/login_event.dart';
-import '/screns/singin.dart';
+import 'package:mtudo/bloc/auth/form_submition_status.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../auth_cubit.dart';
+import '../../../services/auth_repository.dart';
 import 'sign_up_bloc.dart';
 import 'sign_up_event.dart';
 import 'sign_up_state.dart';
 
-class LoginScreen extends StatelessWidget {
+class SignUpScreen extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: BlocProvider(
-            create: (context) =>
-                SignUpBloc(authRepo: context.read<AuthRepository>()),
-            child: _loginForm(_formKey)));
+            create: (context) => SignUpBloc(
+                  authRepo: context.read<AuthRepository>(),
+                  authCubit: context.read<AuthCubit>(),
+                ),
+            child: _signUpForm(_formKey, context)));
   }
 }
 
-Widget _loginForm(GlobalKey<FormState> _formKey) {
+Widget _signUpForm(GlobalKey<FormState> _formKey, BuildContext context) {
   return Container(
     decoration: BoxDecoration(
         image: DecorationImage(
@@ -55,7 +56,7 @@ Widget _loginForm(GlobalKey<FormState> _formKey) {
                     height: 11.0,
                   ),
                   Text(
-                    'Hosgeldiniz',
+                    'Wellcome',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
@@ -64,24 +65,38 @@ Widget _loginForm(GlobalKey<FormState> _formKey) {
                     ),
                   ),
                   SizedBox(
-                    height: 44.0,
+                    height: 12.0,
+                  ),
+                  _firstNameField(_formKey),
+                  SizedBox(
+                    height: 12.0,
+                  ),
+                  _lastNameField(_formKey),
+                  SizedBox(
+                    height: 12.0,
                   ),
                   _emailField(_formKey),
                   SizedBox(
-                    height: 44.0,
+                    height: 12.0,
                   ),
                   _passwordField(_formKey),
+                  SizedBox(
+                    height: 12.0,
+                  ),
+                  _confirmPasswordField(_formKey),
                   SizedBox(
                     height: 12.0,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Hesabin yok mu? "),
+                      Text("All Ready Sing Up ? "),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          context.read<AuthCubit>().showLogin();
+                        },
                         child: Text(
-                          "Kaydol",
+                          "Login",
                           style: TextStyle(
                             color: Colors.redAccent,
                             fontWeight: FontWeight.bold,
@@ -103,6 +118,50 @@ Widget _loginForm(GlobalKey<FormState> _formKey) {
         ),
       ),
     ),
+  );
+}
+
+Widget _firstNameField(GlobalKey<FormState> _formKey) {
+  return BlocBuilder<SignUpBloc, SignUpState>(
+    builder: (context, state) {
+      return TextFormField(
+          autofocus: false,
+          keyboardType: TextInputType.emailAddress,
+          validator: (value) =>
+              state.isValidUsername ? null : 'Username is too short',
+          onChanged: (value) => context
+              .read<SignUpBloc>()
+              .add(SignUpUsernameChanged(username: value)),
+          textInputAction: TextInputAction.next,
+          decoration: InputDecoration(
+              hintText: "First Name",
+              prefixIcon: Icon(
+                Icons.mail,
+                color: Color.fromARGB(255, 58, 56, 56),
+              )));
+    },
+  );
+}
+
+Widget _lastNameField(GlobalKey<FormState> _formKey) {
+  return BlocBuilder<SignUpBloc, SignUpState>(
+    builder: (context, state) {
+      return TextFormField(
+          autofocus: false,
+          keyboardType: TextInputType.emailAddress,
+          validator: (value) =>
+              state.isValidUsername ? null : 'It is not Valid username',
+          onChanged: (value) => context
+              .read<SignUpBloc>()
+              .add(SignUpUsernameChanged(username: value)),
+          textInputAction: TextInputAction.next,
+          decoration: InputDecoration(
+              hintText: "Last Name",
+              prefixIcon: Icon(
+                Icons.mail,
+                color: Color.fromARGB(255, 58, 56, 56),
+              )));
+    },
   );
 }
 
@@ -140,7 +199,29 @@ Widget _passwordField(GlobalKey<FormState> _formKey) {
             .add(SignUpPasswordChanged(password: value)),
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
-            hintText: "Sifre",
+            hintText: "Password",
+            prefixIcon: Icon(
+              Icons.lock,
+              color: Color.fromARGB(255, 58, 56, 56),
+            )),
+      );
+    },
+  );
+}
+
+Widget _confirmPasswordField(GlobalKey<FormState> _formKey) {
+  return BlocBuilder<SignUpBloc, SignUpState>(
+    builder: (context, state) {
+      return TextFormField(
+        autofocus: false,
+        obscureText: true,
+        validator: (value) => state.isValidPassword ? null : 'Not valid',
+        onChanged: (value) => context
+            .read<SignUpBloc>()
+            .add(SignUpPasswordChanged(password: value)),
+        textInputAction: TextInputAction.done,
+        decoration: InputDecoration(
+            hintText: "Confirm Password",
             prefixIcon: Icon(
               Icons.lock,
               color: Color.fromARGB(255, 58, 56, 56),
@@ -167,7 +248,7 @@ Widget _submitionButton(GlobalKey<FormState> _formKey) {
                 }
               },
               child: Text(
-                "Giris yap",
+                "SingUp",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18.0,

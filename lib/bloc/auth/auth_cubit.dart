@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'auth_credentials.dart';
-import '../services/session_cubit.dart';
+import '../session/session_cubit.dart';
 
 enum AuthState { login, signUp, confirmSignUp }
 

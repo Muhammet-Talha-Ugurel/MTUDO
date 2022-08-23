@@ -1,16 +1,14 @@
 // ignore_for_file: unused_import,deprecated_member_use, sized_box_for_whitespace, use_key_in_widget_constructors ,prefer_const_constructors
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:mtudo/auth/auth_repository.dart';
-import 'package:mtudo/auth/confirm/confirm_event.dart';
-import 'package:mtudo/auth/form_submition_status.dart';
-import 'package:mtudo/auth/login/login_event.dart';
-import '/screns/singin.dart';
+import '../../../services/auth_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../form_submition_status.dart';
 import 'confirm_bloc.dart';
+import 'confirm_event.dart';
 import 'confirm_state.dart';
 
-class LoginScreen extends StatelessWidget {
+class ConfrimScreen extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -18,11 +16,11 @@ class LoginScreen extends StatelessWidget {
         body: BlocProvider(
             create: (context) =>
                 ConfirmationBloc(authRepo: context.read<AuthRepository>()),
-            child: _loginForm(_formKey)));
+            child: _confirmForm(_formKey)));
   }
 }
 
-Widget _loginForm(GlobalKey<FormState> _formKey) {
+Widget _confirmForm(GlobalKey<FormState> _formKey) {
   return Container(
     decoration: BoxDecoration(
         image: DecorationImage(

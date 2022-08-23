@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mtudo/screns/loadingview.dart';
-import 'package:mtudo/services/todo_cubit.dart';
+import 'package:mtudo/bloc/todo/todo_cubit.dart';
 
 import '../models/Todo.dart';
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mtudo/services/todo_repository.dart';
+import 'package:mtudo/bloc/todo/todo_repository.dart';
 
-import '../models/Todo.dart';
+import '../../models/Todo.dart';
 
 abstract class TodoState {}
 

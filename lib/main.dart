@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mtudo/auth/login/login.dart';
+import 'package:mtudo/app_navigator.dart';
+import 'package:mtudo/bloc/auth/login/login.dart';
+import 'package:mtudo/bloc/session/session_cubit.dart';
 import 'package:mtudo/models/ModelProvider.dart';
 import 'package:mtudo/screns/loadingview.dart';
 import 'package:mtudo/screns/todo_view.dart';
-import 'package:mtudo/services/todo_cubit.dart';
+import 'package:mtudo/bloc/todo/todo_cubit.dart';
 import '/screns/theme.dart';
 import '/screns/wellcome.dart';
 import 'amplifyconfiguration.dart';
@@ -14,7 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 
-import 'auth/auth_repository.dart';
+import 'services/auth_repository.dart';
 
 void main() {
   runApp(MyApp());
@@ -57,8 +59,12 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'MTUDO',
       home: RepositoryProvider(
-          create: (context) => AuthRepository(),
-          child: _amplifyConfigured ? LoginScreen() : LoadingView()),
+        create: (context) => AuthRepository(),
+        child: BlocProvider(
+            create: (context) =>
+                SessionCubit(authRepo: context.read<AuthRepository>()),
+            child: _amplifyConfigured ? AppNavigator() : LoadingView()),
+      ),
       theme: darkThemeData(context),
       darkTheme: darkThemeData(context),
     );
