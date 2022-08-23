@@ -1,5 +1,6 @@
 {
   "AppSyncApiName": "MTUDO",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
-  "DynamoDBEnableServerSideEncryption": false
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthModeLastUpdated": "2022-08-23T22:37:03.368Z"
 }

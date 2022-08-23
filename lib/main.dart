@@ -58,13 +58,15 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MTUDO',
-      home: RepositoryProvider(
-        create: (context) => AuthRepository(),
-        child: BlocProvider(
-            create: (context) =>
-                SessionCubit(authRepo: context.read<AuthRepository>()),
-            child: _amplifyConfigured ? AppNavigator() : LoadingView()),
-      ),
+      home: _amplifyConfigured
+          ? RepositoryProvider(
+              create: (context) => AuthRepository(),
+              child: BlocProvider(
+                  create: (context) =>
+                      SessionCubit(authRepo: context.read<AuthRepository>()),
+                  child: AppNavigator()),
+            )
+          : LoadingView(),
       theme: darkThemeData(context),
       darkTheme: darkThemeData(context),
     );

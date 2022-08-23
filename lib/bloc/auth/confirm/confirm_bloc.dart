@@ -12,34 +12,34 @@ class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
   ConfirmationBloc({
     this.authRepo,
     this.authCubit,
-  }) : super(ConfirmationState());
+  }) : super(ConfirmationState()) {
+    on<ConfirmationCodeChanged>(_onConfirmationCodeChanged);
+    on<ConfirmationSubmitted>(_onConfirmationSubmitted);
+  }
 
-  @override
-  Stream<ConfirmationState> mapEventToState(ConfirmationEvent event) async* {
-    // Confirmation code updated
-    if (event is ConfirmationCodeChanged) {
-      yield state.copyWith(code: event.code);
+  void _onConfirmationCodeChanged(
+      ConfirmationCodeChanged event, Emitter<ConfirmationState> emit) {
+    emit(state.copyWith(code: event.code));
+  }
 
-      // Form submitted
-    } else if (event is ConfirmationSubmitted) {
-      yield state.copyWith(formStatus: FormSubmitting());
+  void _onConfirmationSubmitted(
+      ConfirmationSubmitted event, Emitter<ConfirmationState> emit) async {
+    emit(state.copyWith(formStatus: FormSubmitting()));
+    try {
+      final userId = await authRepo?.confirmSignUp(
+        username: authCubit?.credentials.username,
+        confirmationCode: state.code,
+      );
+      print(userId);
+      emit(state.copyWith(formStatus: SubmissionSuccess()));
 
-      try {
-        final userId = await authRepo?.confirmSignUp(
-          username: authCubit?.credentials.username,
-          confirmationCode: state.code,
-        );
-        print(userId);
-        yield state.copyWith(formStatus: SubmissionSuccess());
-
-        final credentials = authCubit?.credentials;
-        credentials?.userId = userId;
-        print(credentials);
-        authCubit?.launchSession(credentials!);
-      } catch (e) {
-        print(e);
-        yield state.copyWith(formStatus: SubmissionFailed(e as Exception));
-      }
+      final credentials = authCubit?.credentials;
+      credentials?.userId = userId;
+      print(credentials);
+      authCubit?.launchSession(credentials!);
+    } catch (e) {
+      print(e);
+      emit(state.copyWith(formStatus: SubmissionFailed(e as Exception)));
     }
   }
 }

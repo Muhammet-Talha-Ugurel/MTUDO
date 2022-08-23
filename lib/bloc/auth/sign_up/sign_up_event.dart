@@ -6,6 +6,12 @@ class SignUpUsernameChanged extends SignUpEvent {
   SignUpUsernameChanged({required this.username});
 }
 
+class SignUpEmailChanged extends SignUpEvent {
+  final String email;
+
+  SignUpEmailChanged({required this.email});
+}
+
 class SignUpPasswordChanged extends SignUpEvent {
   final String password;
 
