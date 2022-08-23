@@ -1,15 +1,14 @@
 // ignore_for_file: unused_import,deprecated_member_use, sized_box_for_whitespace, use_key_in_widget_constructors ,prefer_const_constructors
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:mtudo/auth/auth_repository.dart';
+import 'package:mtudo/auth/confirm/confirm_event.dart';
 import 'package:mtudo/auth/form_submition_status.dart';
 import 'package:mtudo/auth/login/login_event.dart';
 import '/screns/singin.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'login_bloc.dart';
-import 'login_state.dart';
+import 'confirm_bloc.dart';
+import 'confirm_state.dart';
 
 class LoginScreen extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -18,7 +17,7 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
         body: BlocProvider(
             create: (context) =>
-                LoginBloc(authRepo: context.read<AuthRepository>()),
+                ConfirmationBloc(authRepo: context.read<AuthRepository>()),
             child: _loginForm(_formKey)));
   }
 }
@@ -65,11 +64,7 @@ Widget _loginForm(GlobalKey<FormState> _formKey) {
                   SizedBox(
                     height: 44.0,
                   ),
-                  _emailField(_formKey),
-                  SizedBox(
-                    height: 44.0,
-                  ),
-                  _passwordField(_formKey),
+                  _confirmField(_formKey),
                   SizedBox(
                     height: 12.0,
                   ),
@@ -105,38 +100,16 @@ Widget _loginForm(GlobalKey<FormState> _formKey) {
   );
 }
 
-Widget _emailField(GlobalKey<FormState> _formKey) {
-  return BlocBuilder<LoginBloc, LoginState>(
-    builder: (context, state) {
-      return TextFormField(
-          autofocus: false,
-          keyboardType: TextInputType.emailAddress,
-          validator: (value) =>
-              state.isValidUsername ? null : 'It is not Valid username',
-          onChanged: (value) => context
-              .read<LoginBloc>()
-              .add(LoginUsernameChanged(username: value)),
-          textInputAction: TextInputAction.next,
-          decoration: InputDecoration(
-              hintText: "Email",
-              prefixIcon: Icon(
-                Icons.mail,
-                color: Color.fromARGB(255, 58, 56, 56),
-              )));
-    },
-  );
-}
-
-Widget _passwordField(GlobalKey<FormState> _formKey) {
-  return BlocBuilder<LoginBloc, LoginState>(
+Widget _confirmField(GlobalKey<FormState> _formKey) {
+  return BlocBuilder<ConfirmationBloc, ConfirmationState>(
     builder: (context, state) {
       return TextFormField(
         autofocus: false,
         obscureText: true,
-        validator: (value) => state.isValidPassword ? null : 'Not valid',
+        validator: (value) => state.isValidCode ? null : 'Not valid',
         onChanged: (value) => context
-            .read<LoginBloc>()
-            .add(LoginPasswordChanged(password: value)),
+            .read<ConfirmationBloc>()
+            .add(ConfirmationCodeChanged(code: value)),
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
             hintText: "Sifre",
@@ -150,7 +123,7 @@ Widget _passwordField(GlobalKey<FormState> _formKey) {
 }
 
 Widget _submitionButton(GlobalKey<FormState> _formKey) {
-  return BlocBuilder<LoginBloc, LoginState>(
+  return BlocBuilder<ConfirmationBloc, ConfirmationState>(
     builder: (context, state) {
       return state.formStatus is FormSubmitting
           ? CircularProgressIndicator()
@@ -162,7 +135,7 @@ Widget _submitionButton(GlobalKey<FormState> _formKey) {
                   borderRadius: BorderRadius.circular(10)),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  context.read<LoginBloc>().add(LoginSubmitted());
+                  context.read<ConfirmationBloc>().add(ConfirmationSubmitted());
                 }
               },
               child: Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mtudo/auth/login/login.dart';
 import 'package:mtudo/models/ModelProvider.dart';
 import 'package:mtudo/screns/loadingview.dart';
 import 'package:mtudo/screns/todo_view.dart';
@@ -12,6 +13,8 @@ import 'package:amplify_datastore/amplify_datastore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+
+import 'auth/auth_repository.dart';
 
 void main() {
   runApp(MyApp());
@@ -53,11 +56,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MTUDO',
-      home: BlocProvider(
-          create: (context) => TodoCubit()
-            ..getTodos()
-            ..observeTodo(),
-          child: _amplifyConfigured ? TodosView() : LoadingView()),
+      home: RepositoryProvider(
+          create: (context) => AuthRepository(),
+          child: _amplifyConfigured ? LoginScreen() : LoadingView()),
       theme: darkThemeData(context),
       darkTheme: darkThemeData(context),
     );

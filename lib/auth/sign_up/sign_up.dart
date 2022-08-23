@@ -8,8 +8,9 @@ import 'package:mtudo/auth/login/login_event.dart';
 import '/screns/singin.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'login_bloc.dart';
-import 'login_state.dart';
+import 'sign_up_bloc.dart';
+import 'sign_up_event.dart';
+import 'sign_up_state.dart';
 
 class LoginScreen extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -18,7 +19,7 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
         body: BlocProvider(
             create: (context) =>
-                LoginBloc(authRepo: context.read<AuthRepository>()),
+                SignUpBloc(authRepo: context.read<AuthRepository>()),
             child: _loginForm(_formKey)));
   }
 }
@@ -106,7 +107,7 @@ Widget _loginForm(GlobalKey<FormState> _formKey) {
 }
 
 Widget _emailField(GlobalKey<FormState> _formKey) {
-  return BlocBuilder<LoginBloc, LoginState>(
+  return BlocBuilder<SignUpBloc, SignUpState>(
     builder: (context, state) {
       return TextFormField(
           autofocus: false,
@@ -114,8 +115,8 @@ Widget _emailField(GlobalKey<FormState> _formKey) {
           validator: (value) =>
               state.isValidUsername ? null : 'It is not Valid username',
           onChanged: (value) => context
-              .read<LoginBloc>()
-              .add(LoginUsernameChanged(username: value)),
+              .read<SignUpBloc>()
+              .add(SignUpUsernameChanged(username: value)),
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
               hintText: "Email",
@@ -128,15 +129,15 @@ Widget _emailField(GlobalKey<FormState> _formKey) {
 }
 
 Widget _passwordField(GlobalKey<FormState> _formKey) {
-  return BlocBuilder<LoginBloc, LoginState>(
+  return BlocBuilder<SignUpBloc, SignUpState>(
     builder: (context, state) {
       return TextFormField(
         autofocus: false,
         obscureText: true,
         validator: (value) => state.isValidPassword ? null : 'Not valid',
         onChanged: (value) => context
-            .read<LoginBloc>()
-            .add(LoginPasswordChanged(password: value)),
+            .read<SignUpBloc>()
+            .add(SignUpPasswordChanged(password: value)),
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
             hintText: "Sifre",
@@ -150,7 +151,7 @@ Widget _passwordField(GlobalKey<FormState> _formKey) {
 }
 
 Widget _submitionButton(GlobalKey<FormState> _formKey) {
-  return BlocBuilder<LoginBloc, LoginState>(
+  return BlocBuilder<SignUpBloc, SignUpState>(
     builder: (context, state) {
       return state.formStatus is FormSubmitting
           ? CircularProgressIndicator()
@@ -162,7 +163,7 @@ Widget _submitionButton(GlobalKey<FormState> _formKey) {
                   borderRadius: BorderRadius.circular(10)),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  context.read<LoginBloc>().add(LoginSubmitted());
+                  context.read<SignUpBloc>().add(SignUpSubmitted());
                 }
               },
               child: Text(
