@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mtudo/screns/loadingview.dart';
 import 'package:mtudo/bloc/todo/todo_cubit.dart';
 
+import '../bloc/session/session_cubit.dart';
 import '../models/Todo.dart';
 
 class TodosView extends StatefulWidget {
@@ -64,7 +65,15 @@ class _TodosViewState extends State<TodosView> {
 
   Widget _emptyTodosView() {
     return Center(
-      child: Text('No todos yet'),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('No todos yet'),
+          RawMaterialButton(
+            onPressed: () => BlocProvider.of<SessionCubit>(context).signOut(),
+          )
+        ],
+      ),
     );
   }
 
