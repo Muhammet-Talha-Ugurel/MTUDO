@@ -1,34 +1,52 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mtudo/services/data_repository.dart';
+import '../../models/User.dart';
 import '../auth/auth_credentials.dart';
 import '../../services/auth_repository.dart';
 import 'session_state.dart';
 
 class SessionCubit extends Cubit<SessionState> {
   final AuthRepository authRepo;
+  final DataRepository dataRepo;
 
-  SessionCubit({required this.authRepo}) : super(UnknownSessionState()) {
+  SessionCubit({
+    required this.authRepo,
+    required this.dataRepo,
+  }) : super(UnknownSessionState()) {
     attemptAutoLogin();
   }
 
   void attemptAutoLogin() async {
     try {
       final userId = await authRepo.attemptAutoLogin();
-      if (userId == null) {
-        throw Exception('User not logged in');
+      if (userId == true) {
+        emit(Authenticated());
+      } else if (userId == false) {
+        emit(Unauthenticated());
       }
-      // final user = dataRepo.getUser(userId);
-      final user = userId;
-      emit(Authenticated(user: user));
     } on Exception {
       emit(Unauthenticated());
     }
   }
 
   void showAuth() => emit(Unauthenticated());
-  void showSession(AuthCredentials credentials) {
-    // final user = dataRepo.getUser(credentials.userId);
-    final user = credentials.username;
-    emit(Authenticated(user: user));
+
+  void showSession(AuthCredentials credentials) async {
+    try {
+      User? user = await dataRepo.getUserById(credentials.userId!);
+
+      if (user == null) {
+        user = await dataRepo.createUser(
+          userId: credentials.userId,
+          username: credentials.username,
+          email: credentials.email,
+        );
+      }
+
+      emit(Authenticated());
+    } catch (e) {
+      emit(Unauthenticated());
+    }
   }
 
   void signOut() {

@@ -3,35 +3,29 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 
 class AuthRepository {
-  Future<String> _getUserIdFromAttributes() async {
-    try {
-      final attributes = await Amplify.Auth.fetchUserAttributes();
-      final userId = attributes
-          .firstWhere((element) => element.userAttributeKey == 'sub')
-          .value;
-      return userId;
-    } catch (e) {
-      throw e;
-    }
+  Future<AuthUser> getCurrentUser() async {
+    final user = await Amplify.Auth.getCurrentUser();
+    return user;
   }
 
-  Future<String?> attemptAutoLogin() async {
+  Future<bool> attemptAutoLogin() async {
     try {
       final session = await Amplify.Auth.fetchAuthSession();
-      return session.isSignedIn ? (await _getUserIdFromAttributes()) : null;
+      print(session.isSignedIn);
+      return session.isSignedIn;
     } catch (e) {
       throw e;
     }
   }
 
-  Future<String?> login({
+  Future<AuthUser?> login({
     required String? username,
     required String? password,
   }) async {
     try {
       final result =
           await Amplify.Auth.signIn(username: username!, password: password);
-      return result.isSignedIn ? (await _getUserIdFromAttributes()) : null;
+      return result.isSignedIn ? (await getCurrentUser()) : null;
     } catch (e) {
       throw e;
     }
@@ -59,16 +53,18 @@ class AuthRepository {
     }
   }
 
-  Future<bool> confirmSignUp({
-    @required String? username,
-    @required String? confirmationCode,
+  Future<AuthUser?> confirmSignUp({
+    required String? username,
+    required String confirmationCode,
   }) async {
     try {
+      print('confirm sing up cagirildi');
+      print(username);
       final result = await Amplify.Auth.confirmSignUp(
         username: username!,
-        confirmationCode: confirmationCode!,
+        confirmationCode: confirmationCode,
       );
-      return result.isSignUpComplete;
+      return result.isSignUpComplete ? (await getCurrentUser()) : null;
     } catch (e) {
       throw e;
     }

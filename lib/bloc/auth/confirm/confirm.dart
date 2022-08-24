@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import '../../../services/auth_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../auth_cubit.dart';
 import '../form_submition_status.dart';
 import 'confirm_bloc.dart';
 import 'confirm_event.dart';
@@ -14,8 +15,10 @@ class ConfrimScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: BlocProvider(
-            create: (context) =>
-                ConfirmationBloc(authRepo: context.read<AuthRepository>()),
+            create: (context) => ConfirmationBloc(
+                  authRepo: context.read<AuthRepository>(),
+                  authCubit: context.read<AuthCubit>(),
+                ),
             child: _confirmForm(_formKey)));
   }
 }

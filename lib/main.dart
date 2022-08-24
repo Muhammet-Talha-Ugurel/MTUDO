@@ -6,6 +6,7 @@ import 'package:mtudo/models/ModelProvider.dart';
 import 'package:mtudo/screns/loadingview.dart';
 import 'package:mtudo/screns/todo_view.dart';
 import 'package:mtudo/bloc/todo/todo_cubit.dart';
+import 'package:mtudo/services/data_repository.dart';
 import '/screns/theme.dart';
 import '/screns/wellcome.dart';
 import 'amplifyconfiguration.dart';
@@ -58,12 +59,20 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MTUDO',
-      home: RepositoryProvider(
-          create: (context) => AuthRepository(),
+      home: MultiRepositoryProvider(
+          providers: [
+            RepositoryProvider(
+              create: (context) => AuthRepository(),
+            ),
+            RepositoryProvider(
+              create: (context) => DataRepository(),
+            )
+          ],
           child: MultiBlocProvider(providers: [
             BlocProvider(
-              create: (context) =>
-                  SessionCubit(authRepo: context.read<AuthRepository>()),
+              create: (context) => SessionCubit(
+                  authRepo: context.read<AuthRepository>(),
+                  dataRepo: context.read<DataRepository>()),
             ),
             BlocProvider(
               create: (context) => TodoCubit()..getTodos(),
