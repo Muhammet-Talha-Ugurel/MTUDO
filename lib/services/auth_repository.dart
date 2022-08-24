@@ -53,7 +53,7 @@ class AuthRepository {
     }
   }
 
-  Future<AuthUser?> confirmSignUp({
+  Future<bool> confirmSignUp({
     required String? username,
     required String confirmationCode,
   }) async {
@@ -64,7 +64,7 @@ class AuthRepository {
         username: username!,
         confirmationCode: confirmationCode,
       );
-      return result.isSignUpComplete ? (await getCurrentUser()) : null;
+      return result.isSignUpComplete;
     } catch (e) {
       throw e;
     }

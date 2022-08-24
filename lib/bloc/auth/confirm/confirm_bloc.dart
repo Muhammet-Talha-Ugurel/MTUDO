@@ -33,6 +33,8 @@ class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {
       emit(state.copyWith(formStatus: SubmissionSuccess()));
 
       final credentials = authCubit.credentials;
+      print(credentials.username);
+      print(credentials.password);
       final userId = await authRepo.login(
         username: credentials.username,
         password: credentials.password,
