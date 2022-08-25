@@ -11,8 +11,13 @@ class TodoRepository {
     }
   }
 
-  Future<void> createTodo(String title) async {
-    final newTodo = Todo(title: title, isComplete: false);
+  Future<void> createTodo(
+      String title, String userId, String panelrowId) async {
+    final newTodo = Todo(
+        title: title,
+        isComplete: false,
+        userID: userId,
+        panelrowID: panelrowId);
     try {
       await Amplify.DataStore.save(newTodo);
     } catch (e) {

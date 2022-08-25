@@ -25,15 +25,13 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the User type in your schema. */
+/** This is an auto generated class representing the PanelRow type in your schema. */
 @immutable
-class User extends Model {
-  static const classType = const _UserModelType();
+class PanelRow extends Model {
+  static const classType = const _PanelRowModelType();
   final String id;
-  final String? _username;
-  final String? _email;
-  final String? _avatarkey;
-  final String? _description;
+  final String? _name;
+  final String? _panelID;
   final List<Todo>? _Todos;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
@@ -46,20 +44,21 @@ class User extends Model {
     return id;
   }
   
-  String? get username {
-    return _username;
+  String? get name {
+    return _name;
   }
   
-  String? get email {
-    return _email;
-  }
-  
-  String? get avatarkey {
-    return _avatarkey;
-  }
-  
-  String? get description {
-    return _description;
+  String get panelID {
+    try {
+      return _panelID!;
+    } catch(e) {
+      throw new AmplifyCodeGenModelException(
+          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
   }
   
   List<Todo>? get Todos {
@@ -74,15 +73,13 @@ class User extends Model {
     return _updatedAt;
   }
   
-  const User._internal({required this.id, username, email, avatarkey, description, Todos, createdAt, updatedAt}): _username = username, _email = email, _avatarkey = avatarkey, _description = description, _Todos = Todos, _createdAt = createdAt, _updatedAt = updatedAt;
+  const PanelRow._internal({required this.id, name, required panelID, Todos, createdAt, updatedAt}): _name = name, _panelID = panelID, _Todos = Todos, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory User({String? id, String? username, String? email, String? avatarkey, String? description, List<Todo>? Todos}) {
-    return User._internal(
+  factory PanelRow({String? id, String? name, required String panelID, List<Todo>? Todos}) {
+    return PanelRow._internal(
       id: id == null ? UUID.getUUID() : id,
-      username: username,
-      email: email,
-      avatarkey: avatarkey,
-      description: description,
+      name: name,
+      panelID: panelID,
       Todos: Todos != null ? List<Todo>.unmodifiable(Todos) : Todos);
   }
   
@@ -93,12 +90,10 @@ class User extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is User &&
+    return other is PanelRow &&
       id == other.id &&
-      _username == other._username &&
-      _email == other._email &&
-      _avatarkey == other._avatarkey &&
-      _description == other._description &&
+      _name == other._name &&
+      _panelID == other._panelID &&
       DeepCollectionEquality().equals(_Todos, other._Todos);
   }
   
@@ -109,12 +104,10 @@ class User extends Model {
   String toString() {
     var buffer = new StringBuffer();
     
-    buffer.write("User {");
+    buffer.write("PanelRow {");
     buffer.write("id=" + "$id" + ", ");
-    buffer.write("username=" + "$_username" + ", ");
-    buffer.write("email=" + "$_email" + ", ");
-    buffer.write("avatarkey=" + "$_avatarkey" + ", ");
-    buffer.write("description=" + "$_description" + ", ");
+    buffer.write("name=" + "$_name" + ", ");
+    buffer.write("panelID=" + "$_panelID" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -122,22 +115,18 @@ class User extends Model {
     return buffer.toString();
   }
   
-  User copyWith({String? id, String? username, String? email, String? avatarkey, String? description, List<Todo>? Todos}) {
-    return User._internal(
+  PanelRow copyWith({String? id, String? name, String? panelID, List<Todo>? Todos}) {
+    return PanelRow._internal(
       id: id ?? this.id,
-      username: username ?? this.username,
-      email: email ?? this.email,
-      avatarkey: avatarkey ?? this.avatarkey,
-      description: description ?? this.description,
+      name: name ?? this.name,
+      panelID: panelID ?? this.panelID,
       Todos: Todos ?? this.Todos);
   }
   
-  User.fromJson(Map<String, dynamic> json)  
+  PanelRow.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _username = json['username'],
-      _email = json['email'],
-      _avatarkey = json['avatarkey'],
-      _description = json['description'],
+      _name = json['name'],
+      _panelID = json['panelID'],
       _Todos = json['Todos'] is List
         ? (json['Todos'] as List)
           .where((e) => e?['serializedData'] != null)
@@ -148,20 +137,18 @@ class User extends Model {
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'username': _username, 'email': _email, 'avatarkey': _avatarkey, 'description': _description, 'Todos': _Todos?.map((Todo? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'name': _name, 'panelID': _panelID, 'Todos': _Todos?.map((Todo? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
   static final QueryField ID = QueryField(fieldName: "id");
-  static final QueryField USERNAME = QueryField(fieldName: "username");
-  static final QueryField EMAIL = QueryField(fieldName: "email");
-  static final QueryField AVATARKEY = QueryField(fieldName: "avatarkey");
-  static final QueryField DESCRIPTION = QueryField(fieldName: "description");
+  static final QueryField NAME = QueryField(fieldName: "name");
+  static final QueryField PANELID = QueryField(fieldName: "panelID");
   static final QueryField TODOS = QueryField(
     fieldName: "Todos",
     fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Todo).toString()));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "User";
-    modelSchemaDefinition.pluralName = "Users";
+    modelSchemaDefinition.name = "PanelRow";
+    modelSchemaDefinition.pluralName = "PanelRows";
     
     modelSchemaDefinition.authRules = [
       AuthRule(
@@ -177,34 +164,22 @@ class User extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: User.USERNAME,
+      key: PanelRow.NAME,
       isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: User.EMAIL,
-      isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: User.AVATARKEY,
-      isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: User.DESCRIPTION,
-      isRequired: false,
+      key: PanelRow.PANELID,
+      isRequired: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-      key: User.TODOS,
+      key: PanelRow.TODOS,
       isRequired: false,
       ofModelName: (Todo).toString(),
-      associatedKey: Todo.USERID
+      associatedKey: Todo.PANELROWID
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
@@ -223,11 +198,11 @@ class User extends Model {
   });
 }
 
-class _UserModelType extends ModelType<User> {
-  const _UserModelType();
+class _PanelRowModelType extends ModelType<PanelRow> {
+  const _PanelRowModelType();
   
   @override
-  User fromJson(Map<String, dynamic> jsonData) {
-    return User.fromJson(jsonData);
+  PanelRow fromJson(Map<String, dynamic> jsonData) {
+    return PanelRow.fromJson(jsonData);
   }
 }

@@ -1,14 +1,31 @@
+type PanelRow @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  panelID: ID! @index(name: "byPanel")
+  Todos: [Todo] @hasMany(indexName: "byPanelRow", fields: ["id"])
+}
+
+type Panel @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  description: String
+  img: String
+  PanelRows: [PanelRow] @hasMany(indexName: "byPanel", fields: ["id"])
+}
+
 type User @model @auth(rules: [{allow: public}]) {
   id: ID!
   username: String
   email: String
   avatarkey: String
   description: String
+  Todos: [Todo] @hasMany(indexName: "byUser", fields: ["id"])
 }
 
 type Todo @model @auth(rules: [{allow: public}]) {
   id: ID!
   title: String
   isComplete: Boolean
-}
- 
+  userID: ID! @index(name: "byUser")
+  panelrowID: ID! @index(name: "byPanelRow")
+} 

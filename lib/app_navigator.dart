@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mtudo/bloc/auth/login/login.dart';
+import 'package:mtudo/screns/home.dart';
 import 'package:mtudo/screns/todo_view.dart';
 import 'bloc/auth/auth_cubit.dart';
 import 'bloc/auth/auth_navigator.dart';
@@ -28,7 +29,7 @@ class AppNavigator extends StatelessWidget {
             ),
 
           // Show session flow
-          if (state is Authenticated) MaterialPage(child: TodosView())
+          if (state is Authenticated) MaterialPage(child: HomeScreen())
         ],
         onPopPage: (route, result) => route.didPop(result),
       );

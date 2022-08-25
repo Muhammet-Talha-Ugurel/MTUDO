@@ -44,7 +44,7 @@ class TodoCubit extends Cubit<TodoState> {
   }
 
   void createTodo(String title) async {
-    await _todoRepo.createTodo(title);
+    await _todoRepo.createTodo(title, 'mtu', 'ToDO');
     getTodos();
   }
 
