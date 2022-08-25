@@ -1,4 +1,4 @@
-import '../../models/Todo.dart';
+import '../models/Todo.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 
 class TodoRepository {

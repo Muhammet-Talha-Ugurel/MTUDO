@@ -34,7 +34,7 @@ class User extends Model {
   final String? _email;
   final String? _avatarkey;
   final String? _description;
-  final List<Todo>? _Todos;
+  final List<Panel>? _Panels;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
 
@@ -62,8 +62,8 @@ class User extends Model {
     return _description;
   }
   
-  List<Todo>? get Todos {
-    return _Todos;
+  List<Panel>? get Panels {
+    return _Panels;
   }
   
   TemporalDateTime? get createdAt {
@@ -74,16 +74,16 @@ class User extends Model {
     return _updatedAt;
   }
   
-  const User._internal({required this.id, username, email, avatarkey, description, Todos, createdAt, updatedAt}): _username = username, _email = email, _avatarkey = avatarkey, _description = description, _Todos = Todos, _createdAt = createdAt, _updatedAt = updatedAt;
+  const User._internal({required this.id, username, email, avatarkey, description, Panels, createdAt, updatedAt}): _username = username, _email = email, _avatarkey = avatarkey, _description = description, _Panels = Panels, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory User({String? id, String? username, String? email, String? avatarkey, String? description, List<Todo>? Todos}) {
+  factory User({String? id, String? username, String? email, String? avatarkey, String? description, List<Panel>? Panels}) {
     return User._internal(
       id: id == null ? UUID.getUUID() : id,
       username: username,
       email: email,
       avatarkey: avatarkey,
       description: description,
-      Todos: Todos != null ? List<Todo>.unmodifiable(Todos) : Todos);
+      Panels: Panels != null ? List<Panel>.unmodifiable(Panels) : Panels);
   }
   
   bool equals(Object other) {
@@ -99,7 +99,7 @@ class User extends Model {
       _email == other._email &&
       _avatarkey == other._avatarkey &&
       _description == other._description &&
-      DeepCollectionEquality().equals(_Todos, other._Todos);
+      DeepCollectionEquality().equals(_Panels, other._Panels);
   }
   
   @override
@@ -122,14 +122,14 @@ class User extends Model {
     return buffer.toString();
   }
   
-  User copyWith({String? id, String? username, String? email, String? avatarkey, String? description, List<Todo>? Todos}) {
+  User copyWith({String? id, String? username, String? email, String? avatarkey, String? description, List<Panel>? Panels}) {
     return User._internal(
       id: id ?? this.id,
       username: username ?? this.username,
       email: email ?? this.email,
       avatarkey: avatarkey ?? this.avatarkey,
       description: description ?? this.description,
-      Todos: Todos ?? this.Todos);
+      Panels: Panels ?? this.Panels);
   }
   
   User.fromJson(Map<String, dynamic> json)  
@@ -138,17 +138,17 @@ class User extends Model {
       _email = json['email'],
       _avatarkey = json['avatarkey'],
       _description = json['description'],
-      _Todos = json['Todos'] is List
-        ? (json['Todos'] as List)
+      _Panels = json['Panels'] is List
+        ? (json['Panels'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => Todo.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Panel.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null,
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'username': _username, 'email': _email, 'avatarkey': _avatarkey, 'description': _description, 'Todos': _Todos?.map((Todo? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'username': _username, 'email': _email, 'avatarkey': _avatarkey, 'description': _description, 'Panels': _Panels?.map((Panel? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
   static final QueryField ID = QueryField(fieldName: "id");
@@ -156,9 +156,9 @@ class User extends Model {
   static final QueryField EMAIL = QueryField(fieldName: "email");
   static final QueryField AVATARKEY = QueryField(fieldName: "avatarkey");
   static final QueryField DESCRIPTION = QueryField(fieldName: "description");
-  static final QueryField TODOS = QueryField(
-    fieldName: "Todos",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Todo).toString()));
+  static final QueryField PANELS = QueryField(
+    fieldName: "Panels",
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Panel).toString()));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "User";
     modelSchemaDefinition.pluralName = "Users";
@@ -201,10 +201,10 @@ class User extends Model {
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-      key: User.TODOS,
+      key: User.PANELS,
       isRequired: false,
-      ofModelName: (Todo).toString(),
-      associatedKey: Todo.USERID
+      ofModelName: (Panel).toString(),
+      associatedKey: Panel.USERID
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(

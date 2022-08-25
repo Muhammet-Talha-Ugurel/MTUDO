@@ -12,27 +12,25 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      floatingActionButton: AddPanel(),
-      body: Column(
-        children: [
-          Card(
+        appBar: AppBar(),
+        floatingActionButton: AddPanel(),
+        body: GridView.builder(
+          gridDelegate:
+              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+          itemCount: 4,
+          itemBuilder: (context, index) => Card(
             elevation: 10,
             child: Container(
-                height: 100,
-                width: 200,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      'Add New Panel',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ],
-                )),
-          )
-        ],
-      ),
-    );
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  'ToDo',
+                  style: TextStyle(fontSize: 30),
+                ),
+              ],
+            )),
+          ),
+        ));
   }
 }

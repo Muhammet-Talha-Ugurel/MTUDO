@@ -5,7 +5,7 @@ import 'package:mtudo/bloc/session/session_cubit.dart';
 import 'package:mtudo/models/ModelProvider.dart';
 import 'package:mtudo/screns/loadingview.dart';
 import 'package:mtudo/screns/todo_view.dart';
-import 'package:mtudo/bloc/todo/todo_cubit.dart';
+import 'package:mtudo/bloc/todo/todo_bloc.dart';
 import 'package:mtudo/services/data_repository.dart';
 import '/screns/theme.dart';
 import '/screns/wellcome.dart';
@@ -73,9 +73,6 @@ class _MyAppState extends State<MyApp> {
               create: (context) => SessionCubit(
                   authRepo: context.read<AuthRepository>(),
                   dataRepo: context.read<DataRepository>()),
-            ),
-            BlocProvider(
-              create: (context) => TodoCubit()..getTodos(),
             ),
           ], child: _amplifyConfigured ? AppNavigator() : LoadingView())),
       theme: darkThemeData(context),

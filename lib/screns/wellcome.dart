@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mtudo/bloc/auth/login/login.dart';
 import 'package:mtudo/screns/todo_view.dart';
 
 class HomePage extends StatelessWidget {
@@ -43,8 +44,10 @@ class HomePage extends StatelessWidget {
             ),
             TextButton(
                 onPressed: () => {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => TodosView())),
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen())),
                     },
                 child: Text(
                   "Continue",
