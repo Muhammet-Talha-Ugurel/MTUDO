@@ -32,8 +32,6 @@ class User extends Model {
   final String id;
   final String? _username;
   final String? _email;
-  final String? _avatarkey;
-  final String? _description;
   final List<Panel>? _Panels;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
@@ -54,14 +52,6 @@ class User extends Model {
     return _email;
   }
   
-  String? get avatarkey {
-    return _avatarkey;
-  }
-  
-  String? get description {
-    return _description;
-  }
-  
   List<Panel>? get Panels {
     return _Panels;
   }
@@ -74,15 +64,13 @@ class User extends Model {
     return _updatedAt;
   }
   
-  const User._internal({required this.id, username, email, avatarkey, description, Panels, createdAt, updatedAt}): _username = username, _email = email, _avatarkey = avatarkey, _description = description, _Panels = Panels, _createdAt = createdAt, _updatedAt = updatedAt;
+  const User._internal({required this.id, username, email, Panels, createdAt, updatedAt}): _username = username, _email = email, _Panels = Panels, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory User({String? id, String? username, String? email, String? avatarkey, String? description, List<Panel>? Panels}) {
+  factory User({String? id, String? username, String? email, List<Panel>? Panels}) {
     return User._internal(
       id: id == null ? UUID.getUUID() : id,
       username: username,
       email: email,
-      avatarkey: avatarkey,
-      description: description,
       Panels: Panels != null ? List<Panel>.unmodifiable(Panels) : Panels);
   }
   
@@ -97,8 +85,6 @@ class User extends Model {
       id == other.id &&
       _username == other._username &&
       _email == other._email &&
-      _avatarkey == other._avatarkey &&
-      _description == other._description &&
       DeepCollectionEquality().equals(_Panels, other._Panels);
   }
   
@@ -113,8 +99,6 @@ class User extends Model {
     buffer.write("id=" + "$id" + ", ");
     buffer.write("username=" + "$_username" + ", ");
     buffer.write("email=" + "$_email" + ", ");
-    buffer.write("avatarkey=" + "$_avatarkey" + ", ");
-    buffer.write("description=" + "$_description" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -122,13 +106,11 @@ class User extends Model {
     return buffer.toString();
   }
   
-  User copyWith({String? id, String? username, String? email, String? avatarkey, String? description, List<Panel>? Panels}) {
+  User copyWith({String? id, String? username, String? email, List<Panel>? Panels}) {
     return User._internal(
       id: id ?? this.id,
       username: username ?? this.username,
       email: email ?? this.email,
-      avatarkey: avatarkey ?? this.avatarkey,
-      description: description ?? this.description,
       Panels: Panels ?? this.Panels);
   }
   
@@ -136,8 +118,6 @@ class User extends Model {
     : id = json['id'],
       _username = json['username'],
       _email = json['email'],
-      _avatarkey = json['avatarkey'],
-      _description = json['description'],
       _Panels = json['Panels'] is List
         ? (json['Panels'] as List)
           .where((e) => e?['serializedData'] != null)
@@ -148,14 +128,12 @@ class User extends Model {
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'username': _username, 'email': _email, 'avatarkey': _avatarkey, 'description': _description, 'Panels': _Panels?.map((Panel? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'username': _username, 'email': _email, 'Panels': _Panels?.map((Panel? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
   static final QueryField ID = QueryField(fieldName: "id");
   static final QueryField USERNAME = QueryField(fieldName: "username");
   static final QueryField EMAIL = QueryField(fieldName: "email");
-  static final QueryField AVATARKEY = QueryField(fieldName: "avatarkey");
-  static final QueryField DESCRIPTION = QueryField(fieldName: "description");
   static final QueryField PANELS = QueryField(
     fieldName: "Panels",
     fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Panel).toString()));
@@ -184,18 +162,6 @@ class User extends Model {
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: User.EMAIL,
-      isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: User.AVATARKEY,
-      isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: User.DESCRIPTION,
       isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mtudo/bloc/auth/login/login.dart';
+import 'package:mtudo/bloc/panel/panel_event.dart';
 import 'package:mtudo/screns/home.dart';
-import 'package:mtudo/screns/todo_view.dart';
 import 'bloc/auth/auth_cubit.dart';
 import 'bloc/auth/auth_navigator.dart';
+import 'bloc/panel/panel_bloc.dart';
 import 'screns/loadingview.dart';
 import 'bloc/session/session_cubit.dart';
 import 'bloc/session/session_state.dart';
@@ -29,7 +30,12 @@ class AppNavigator extends StatelessWidget {
             ),
 
           // Show session flow
-          if (state is Authenticated) MaterialPage(child: HomeScreen())
+          if (state is Authenticated)
+            MaterialPage(
+                child: BlocProvider(
+              create: (context) => PanelBloc()..add(LoadPanelEvent()),
+              child: HomeScreen(),
+            ))
         ],
         onPopPage: (route, result) => route.didPop(result),
       );

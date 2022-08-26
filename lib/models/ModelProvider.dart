@@ -21,20 +21,16 @@
 
 import 'package:amplify_core/amplify_core.dart';
 import 'Panel.dart';
-import 'PanelRow.dart';
-import 'Todo.dart';
 import 'User.dart';
 
 export 'Panel.dart';
-export 'PanelRow.dart';
-export 'Todo.dart';
 export 'User.dart';
 
 class ModelProvider implements ModelProviderInterface {
   @override
-  String version = "73e267b0cff1be98af3ae453f3a7164d";
+  String version = "492ece31414e02cae4df88a76bc6f9d2";
   @override
-  List<ModelSchema> modelSchemas = [Panel.schema, PanelRow.schema, Todo.schema, User.schema];
+  List<ModelSchema> modelSchemas = [Panel.schema, User.schema];
   static final ModelProvider _instance = ModelProvider();
   @override
   List<ModelSchema> customTypeSchemas = [];
@@ -45,10 +41,6 @@ class ModelProvider implements ModelProviderInterface {
     switch(modelName) {
       case "Panel":
         return Panel.classType;
-      case "PanelRow":
-        return PanelRow.classType;
-      case "Todo":
-        return Todo.classType;
       case "User":
         return User.classType;
       default:

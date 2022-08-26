@@ -19,9 +19,7 @@
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
-import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -32,8 +30,6 @@ class Panel extends Model {
   final String id;
   final String? _name;
   final String? _description;
-  final String? _img;
-  final List<PanelRow>? _PanelRows;
   final String? _userID;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
@@ -52,14 +48,6 @@ class Panel extends Model {
   
   String? get description {
     return _description;
-  }
-  
-  String? get img {
-    return _img;
-  }
-  
-  List<PanelRow>? get PanelRows {
-    return _PanelRows;
   }
   
   String get userID {
@@ -83,15 +71,13 @@ class Panel extends Model {
     return _updatedAt;
   }
   
-  const Panel._internal({required this.id, name, description, img, PanelRows, required userID, createdAt, updatedAt}): _name = name, _description = description, _img = img, _PanelRows = PanelRows, _userID = userID, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Panel._internal({required this.id, name, description, required userID, createdAt, updatedAt}): _name = name, _description = description, _userID = userID, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Panel({String? id, String? name, String? description, String? img, List<PanelRow>? PanelRows, required String userID}) {
+  factory Panel({String? id, String? name, String? description, required String userID}) {
     return Panel._internal(
       id: id == null ? UUID.getUUID() : id,
       name: name,
       description: description,
-      img: img,
-      PanelRows: PanelRows != null ? List<PanelRow>.unmodifiable(PanelRows) : PanelRows,
       userID: userID);
   }
   
@@ -106,8 +92,6 @@ class Panel extends Model {
       id == other.id &&
       _name == other._name &&
       _description == other._description &&
-      _img == other._img &&
-      DeepCollectionEquality().equals(_PanelRows, other._PanelRows) &&
       _userID == other._userID;
   }
   
@@ -122,7 +106,6 @@ class Panel extends Model {
     buffer.write("id=" + "$id" + ", ");
     buffer.write("name=" + "$_name" + ", ");
     buffer.write("description=" + "$_description" + ", ");
-    buffer.write("img=" + "$_img" + ", ");
     buffer.write("userID=" + "$_userID" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
@@ -131,13 +114,11 @@ class Panel extends Model {
     return buffer.toString();
   }
   
-  Panel copyWith({String? id, String? name, String? description, String? img, List<PanelRow>? PanelRows, String? userID}) {
+  Panel copyWith({String? id, String? name, String? description, String? userID}) {
     return Panel._internal(
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
-      img: img ?? this.img,
-      PanelRows: PanelRows ?? this.PanelRows,
       userID: userID ?? this.userID);
   }
   
@@ -145,28 +126,17 @@ class Panel extends Model {
     : id = json['id'],
       _name = json['name'],
       _description = json['description'],
-      _img = json['img'],
-      _PanelRows = json['PanelRows'] is List
-        ? (json['PanelRows'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => PanelRow.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
-          .toList()
-        : null,
       _userID = json['userID'],
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'name': _name, 'description': _description, 'img': _img, 'PanelRows': _PanelRows?.map((PanelRow? e) => e?.toJson()).toList(), 'userID': _userID, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'name': _name, 'description': _description, 'userID': _userID, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
   static final QueryField ID = QueryField(fieldName: "id");
   static final QueryField NAME = QueryField(fieldName: "name");
   static final QueryField DESCRIPTION = QueryField(fieldName: "description");
-  static final QueryField IMG = QueryField(fieldName: "img");
-  static final QueryField PANELROWS = QueryField(
-    fieldName: "PanelRows",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (PanelRow).toString()));
   static final QueryField USERID = QueryField(fieldName: "userID");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Panel";
@@ -195,19 +165,6 @@ class Panel extends Model {
       key: Panel.DESCRIPTION,
       isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Panel.IMG,
-      isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-      key: Panel.PANELROWS,
-      isRequired: false,
-      ofModelName: (PanelRow).toString(),
-      associatedKey: PanelRow.PANELID
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(

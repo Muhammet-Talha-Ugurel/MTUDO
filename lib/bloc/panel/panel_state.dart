@@ -1,6 +1,27 @@
 import '../../models/Panel.dart';
+import '../auth/form_submition_status.dart';
 
-abstract class PanelState {}
+class PanelState {
+  final String name;
+  bool get isValidName => name.length > 3;
+
+  final FormSubmissionStatus formStatus;
+
+  PanelState({
+    this.name = '',
+    this.formStatus = const InitialFormStatus(),
+  });
+
+  PanelState copyWith({
+    String? name,
+    FormSubmissionStatus? formStatus,
+  }) {
+    return PanelState(
+      name: name ?? this.name,
+      formStatus: formStatus ?? this.formStatus,
+    );
+  }
+}
 
 class LoadingPanelState extends PanelState {}
 
@@ -48,4 +69,13 @@ class ObservedPanelState extends PanelState {
 class FaildToObservePanelState extends PanelState {
   Error error;
   FaildToObservePanelState({required this.error});
+}
+
+class CretaingPanelState extends PanelState {}
+
+class CreatedPanelState extends PanelState {}
+
+class FaildToCreatePanelState extends PanelState {
+  Error error;
+  FaildToCreatePanelState({required this.error});
 }
