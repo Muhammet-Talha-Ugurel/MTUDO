@@ -79,3 +79,10 @@ class FaildToCreatePanelState extends PanelState {
   Error error;
   FaildToCreatePanelState({required this.error});
 }
+
+class ShowingPanelDetailState extends PanelState {}
+
+class ShowPanelDetailState extends PanelState {
+  Panel panel;
+  ShowPanelDetailState({required this.panel});
+}

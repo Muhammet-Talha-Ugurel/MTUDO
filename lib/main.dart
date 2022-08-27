@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mtudo/app_navigator.dart';
+import 'package:mtudo/nav/app_navigator.dart';
 import 'package:mtudo/bloc/auth/login/login.dart';
 import 'package:mtudo/bloc/session/session_cubit.dart';
 import 'package:mtudo/models/ModelProvider.dart';

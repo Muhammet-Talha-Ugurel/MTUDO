@@ -4,8 +4,8 @@ import 'package:mtudo/bloc/panel/panel_event.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/panel/panel_state.dart';
 
+final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 Widget NewPanel(BuildContext context) {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   return BlocProvider(
     create: (context) => PanelBloc(),
     child: BlocBuilder<PanelBloc, PanelState>(
@@ -15,6 +15,7 @@ Widget NewPanel(BuildContext context) {
             Form(
               key: _formKey,
               child: TextFormField(
+                autofocus: false,
                 validator: (value) =>
                     state.isValidName ? null : 'Username is too short',
                 decoration: InputDecoration(hintText: 'Enter todo title'),

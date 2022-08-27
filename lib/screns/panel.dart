@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:mtudo/models/Panel.dart';
 
-class PanelScreen extends StatefulWidget {
-  const PanelScreen({Key? key}) : super(key: key);
+class PanelScreen extends StatelessWidget {
+  Panel panel;
+  PanelScreen(this.panel);
 
-  @override
-  State<PanelScreen> createState() => _PanelScreenState();
-}
-
-class _PanelScreenState extends State<PanelScreen> {
-  @override
   Widget build(BuildContext context) {
-    return Column();
+    return Scaffold(
+      body: Center(child: Text(panel.name!)),
+    );
   }
 }

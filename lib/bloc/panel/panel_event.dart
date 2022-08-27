@@ -15,3 +15,8 @@ class PanelNameChanged extends PanelEvent {
 }
 
 class PanelSubmitted extends PanelEvent {}
+
+class ShowPanelDetailEvent extends PanelEvent {
+  final String panelId;
+  ShowPanelDetailEvent(this.panelId);
+}

@@ -14,6 +14,7 @@ class PanelBloc extends Bloc<PanelEvent, PanelState> {
     on<ObservePanelEvent>(_onObservePanelEvent);
     on<PanelSubmitted>(_onPanelSubmitted);
     on<PanelNameChanged>(_onPanelNameChanged);
+    on<ShowPanelDetailEvent>(_onShowPanelDetailEvent);
   }
   void _onLoadPanelEvent(LoadPanelEvent event, Emitter<PanelState> emit) async {
     emit(LoadingPanelState());
@@ -49,6 +50,17 @@ class PanelBloc extends Bloc<PanelEvent, PanelState> {
       LoadPanelEvent();
     } catch (e) {
       emit(FaildToObservePanelState(error: e as Error));
+    }
+  }
+
+  Future<void> _onShowPanelDetailEvent(
+      ShowPanelDetailEvent event, Emitter<PanelState> emit) async {
+    emit(ShowingPanelDetailState());
+    try {
+      final panel = await _panelRepo.getPanel(event.panelId);
+      emit(ShowPanelDetailState(panel: panel));
+    } catch (e) {
+      emit(FaildToLoadPanelState(error: e as Error));
     }
   }
 }

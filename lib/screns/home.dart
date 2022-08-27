@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mtudo/bloc/panel/panel_event.dart';
 import 'package:mtudo/bloc/panel/panel_state.dart';
 import 'package:mtudo/widgets/add_panel.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,18 +30,23 @@ class HomeScreen extends StatelessWidget {
             gridDelegate:
                 SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
             itemCount: state.panels.length,
-            itemBuilder: (context, index) => Card(
-              elevation: 20,
-              child: Container(
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    state.panels[index].name!,
-                    style: TextStyle(fontSize: 30),
-                  ),
-                ],
-              )),
+            itemBuilder: (context, index) => GestureDetector(
+              onTap: () => context
+                  .read<PanelBloc>()
+                  .add(ShowPanelDetailEvent(state.panels[index].id)),
+              child: Card(
+                elevation: 20,
+                child: Container(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      state.panels[index].name!,
+                      style: TextStyle(fontSize: 30),
+                    ),
+                  ],
+                )),
+              ),
             ),
           ),
         );

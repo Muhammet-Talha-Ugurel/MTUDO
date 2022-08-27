@@ -8,6 +8,12 @@ class PanelRepository {
         where: Panel.USERID.eq(user.userId));
   }
 
+  Future<Panel> getPanel(String id) async {
+    final panels =
+        await Amplify.DataStore.query(Panel.classType, where: Panel.ID.eq(id));
+    return panels.first;
+  }
+
   Future<void> createPanel(
       String name, String description, String userId) async {
     final newPanel =
