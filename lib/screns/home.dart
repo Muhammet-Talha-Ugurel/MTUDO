@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mtudo/bloc/panel/panel_event.dart';
 import 'package:mtudo/bloc/panel/panel_state.dart';
+import 'package:mtudo/screns/panel.dart';
 import 'package:mtudo/widgets/add_panel.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/panel/panel_bloc.dart';
@@ -31,9 +32,13 @@ class HomeScreen extends StatelessWidget {
                 SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
             itemCount: state.panels.length,
             itemBuilder: (context, index) => GestureDetector(
-              onTap: () => context
-                  .read<PanelBloc>()
-                  .add(ShowPanelDetailEvent(state.panels[index].id)),
+              onTap: () => {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            PanelScreen(state.panels[index]))),
+              },
               child: Card(
                 elevation: 20,
                 child: Container(

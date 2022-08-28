@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mtudo/nav/app_navigator.dart';
+import 'package:mtudo/nav/auth_navigator.dart';
 import 'package:mtudo/bloc/auth/login/login.dart';
 import 'package:mtudo/bloc/session/session_cubit.dart';
 import 'package:mtudo/models/ModelProvider.dart';
@@ -73,7 +73,7 @@ class _MyAppState extends State<MyApp> {
                   authRepo: context.read<AuthRepository>(),
                   dataRepo: context.read<DataRepository>()),
             ),
-          ], child: _amplifyConfigured ? AppNavigator() : LoadingView())),
+          ], child: _amplifyConfigured ? AuthNavigator() : LoadingView())),
       theme: darkThemeData(context),
       darkTheme: darkThemeData(context),
     );
