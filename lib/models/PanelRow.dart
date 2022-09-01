@@ -19,21 +19,18 @@
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
-import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Panel type in your schema. */
+/** This is an auto generated class representing the PanelRow type in your schema. */
 @immutable
-class Panel extends Model {
-  static const classType = const _PanelModelType();
+class PanelRow extends Model {
+  static const classType = const _PanelRowModelType();
   final String id;
   final String? _name;
   final String? _description;
-  final String? _userID;
-  final List<PanelRow>? _PanelRows;
+  final String? _panelID;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
 
@@ -53,9 +50,9 @@ class Panel extends Model {
     return _description;
   }
   
-  String get userID {
+  String get panelID {
     try {
-      return _userID!;
+      return _panelID!;
     } catch(e) {
       throw new AmplifyCodeGenModelException(
           AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
@@ -66,10 +63,6 @@ class Panel extends Model {
     }
   }
   
-  List<PanelRow>? get PanelRows {
-    return _PanelRows;
-  }
-  
   TemporalDateTime? get createdAt {
     return _createdAt;
   }
@@ -78,15 +71,14 @@ class Panel extends Model {
     return _updatedAt;
   }
   
-  const Panel._internal({required this.id, name, description, required userID, PanelRows, createdAt, updatedAt}): _name = name, _description = description, _userID = userID, _PanelRows = PanelRows, _createdAt = createdAt, _updatedAt = updatedAt;
+  const PanelRow._internal({required this.id, name, description, required panelID, createdAt, updatedAt}): _name = name, _description = description, _panelID = panelID, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Panel({String? id, String? name, String? description, required String userID, List<PanelRow>? PanelRows}) {
-    return Panel._internal(
+  factory PanelRow({String? id, String? name, String? description, required String panelID}) {
+    return PanelRow._internal(
       id: id == null ? UUID.getUUID() : id,
       name: name,
       description: description,
-      userID: userID,
-      PanelRows: PanelRows != null ? List<PanelRow>.unmodifiable(PanelRows) : PanelRows);
+      panelID: panelID);
   }
   
   bool equals(Object other) {
@@ -96,12 +88,11 @@ class Panel extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Panel &&
+    return other is PanelRow &&
       id == other.id &&
       _name == other._name &&
       _description == other._description &&
-      _userID == other._userID &&
-      DeepCollectionEquality().equals(_PanelRows, other._PanelRows);
+      _panelID == other._panelID;
   }
   
   @override
@@ -111,11 +102,11 @@ class Panel extends Model {
   String toString() {
     var buffer = new StringBuffer();
     
-    buffer.write("Panel {");
+    buffer.write("PanelRow {");
     buffer.write("id=" + "$id" + ", ");
     buffer.write("name=" + "$_name" + ", ");
     buffer.write("description=" + "$_description" + ", ");
-    buffer.write("userID=" + "$_userID" + ", ");
+    buffer.write("panelID=" + "$_panelID" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -123,43 +114,33 @@ class Panel extends Model {
     return buffer.toString();
   }
   
-  Panel copyWith({String? id, String? name, String? description, String? userID, List<PanelRow>? PanelRows}) {
-    return Panel._internal(
+  PanelRow copyWith({String? id, String? name, String? description, String? panelID}) {
+    return PanelRow._internal(
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
-      userID: userID ?? this.userID,
-      PanelRows: PanelRows ?? this.PanelRows);
+      panelID: panelID ?? this.panelID);
   }
   
-  Panel.fromJson(Map<String, dynamic> json)  
+  PanelRow.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
       _description = json['description'],
-      _userID = json['userID'],
-      _PanelRows = json['PanelRows'] is List
-        ? (json['PanelRows'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => PanelRow.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
-          .toList()
-        : null,
+      _panelID = json['panelID'],
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'name': _name, 'description': _description, 'userID': _userID, 'PanelRows': _PanelRows?.map((PanelRow? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'name': _name, 'description': _description, 'panelID': _panelID, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
   static final QueryField ID = QueryField(fieldName: "id");
   static final QueryField NAME = QueryField(fieldName: "name");
   static final QueryField DESCRIPTION = QueryField(fieldName: "description");
-  static final QueryField USERID = QueryField(fieldName: "userID");
-  static final QueryField PANELROWS = QueryField(
-    fieldName: "PanelRows",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (PanelRow).toString()));
+  static final QueryField PANELID = QueryField(fieldName: "panelID");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "Panel";
-    modelSchemaDefinition.pluralName = "Panels";
+    modelSchemaDefinition.name = "PanelRow";
+    modelSchemaDefinition.pluralName = "PanelRows";
     
     modelSchemaDefinition.authRules = [
       AuthRule(
@@ -175,28 +156,21 @@ class Panel extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Panel.NAME,
+      key: PanelRow.NAME,
       isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Panel.DESCRIPTION,
+      key: PanelRow.DESCRIPTION,
       isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Panel.USERID,
+      key: PanelRow.PANELID,
       isRequired: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-      key: Panel.PANELROWS,
-      isRequired: false,
-      ofModelName: (PanelRow).toString(),
-      associatedKey: PanelRow.PANELID
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
@@ -215,11 +189,11 @@ class Panel extends Model {
   });
 }
 
-class _PanelModelType extends ModelType<Panel> {
-  const _PanelModelType();
+class _PanelRowModelType extends ModelType<PanelRow> {
+  const _PanelRowModelType();
   
   @override
-  Panel fromJson(Map<String, dynamic> jsonData) {
-    return Panel.fromJson(jsonData);
+  PanelRow fromJson(Map<String, dynamic> jsonData) {
+    return PanelRow.fromJson(jsonData);
   }
 }

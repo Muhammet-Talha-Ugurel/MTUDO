@@ -1,3 +1,5 @@
+import '../../models/Panel.dart';
+
 abstract class PanelEvent {}
 
 class LoadPanelEvent extends PanelEvent {}
@@ -17,6 +19,6 @@ class PanelNameChanged extends PanelEvent {
 class PanelSubmitted extends PanelEvent {}
 
 class ShowPanelDetailEvent extends PanelEvent {
-  final String panelId;
-  ShowPanelDetailEvent(this.panelId);
+  final Panel panel;
+  ShowPanelDetailEvent(this.panel);
 }

@@ -9,21 +9,115 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/panel/panel_state.dart';
 
 class PanelScreen extends StatelessWidget {
-  Panel panel;
-  PanelScreen(this.panel);
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PanelBloc()..add(LoadPanelEvent()),
-      child: BlocBuilder<PanelBloc, PanelState>(
-        builder: (context, state) {
-          if (state is LoadedPanelState) {
-            return Scaffold(
-              body: Center(child: Text(panel.name!)),
-            );
-          } else {
-            return CircularProgressIndicator();
-          }
-        },
+    return BlocBuilder<PanelBloc, PanelState>(
+      builder: (blocContext, state) {
+        if (state is ShowPanelDetailState) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(state.panel.name!),
+            ),
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    PanelRow(
+                      title: 'ToDo',
+                      todos: Todo(text: 'test'),
+                    ),
+                    PanelRow(
+                      title: 'On Proses',
+                      todos: Todo(text: 'test'),
+                    ),
+                    PanelRow(
+                      title: 'Done',
+                      todos: Todo(text: 'test'),
+                    ),
+                    Container(
+                      height: 50,
+                      child: Card(
+                          child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                            child: Row(
+                          children: [
+                            Icon(Icons.add),
+                            Text('Add Row'),
+                          ],
+                        )),
+                      )),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+    );
+  }
+}
+
+class PanelRow extends StatelessWidget {
+  final String title;
+  final Todo todos;
+  const PanelRow({super.key, required this.title, required this.todos});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 100,
+      child: Card(
+          child: Column(
+        children: [
+          Container(
+              height: 50,
+              width: 100,
+              child: Card(
+                  elevation: 30,
+                  child: Center(
+                    child: FittedBox(
+                      child: Text(
+                        title,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 25),
+                      ),
+                    ),
+                  ))),
+          todos,
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Text(
+              'Add Todo +',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                  fontSize: 10, color: Color.fromARGB(255, 182, 0, 0)),
+            ),
+          )
+        ],
+      )),
+    );
+  }
+}
+
+class Todo extends StatelessWidget {
+  final String text;
+  const Todo({super.key, required this.text});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 30,
+      child: Card(
+        child: Center(
+            child: Text(
+          text,
+          style: TextStyle(fontSize: 10),
+          textAlign: TextAlign.justify,
+        )),
       ),
     );
   }

@@ -57,8 +57,7 @@ class PanelBloc extends Bloc<PanelEvent, PanelState> {
       ShowPanelDetailEvent event, Emitter<PanelState> emit) async {
     emit(ShowingPanelDetailState());
     try {
-      final panel = await _panelRepo.getPanel(event.panelId);
-      emit(ShowPanelDetailState(panel: panel));
+      emit(ShowPanelDetailState(panel: event.panel));
     } catch (e) {
       emit(FaildToLoadPanelState(error: e as Error));
     }

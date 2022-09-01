@@ -33,11 +33,13 @@ class HomeScreen extends StatelessWidget {
             itemCount: state.panels.length,
             itemBuilder: (context, index) => GestureDetector(
               onTap: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            PanelScreen(state.panels[index]))),
+                context.read<PanelBloc>()
+                  ..add(ShowPanelDetailEvent(state.panels[index])),
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => BlocProvider.value(
+                          value: BlocProvider.of<PanelBloc>(context),
+                          child: PanelScreen(),
+                        ))),
               },
               child: Card(
                 elevation: 20,
