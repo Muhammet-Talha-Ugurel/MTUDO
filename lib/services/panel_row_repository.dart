@@ -9,9 +9,9 @@ class PanelRowRepository {
   }
 
   Future<void> createPanelRow(
-      String name, String description, String userId) async {
-    final newPanel =
-        Panel(name: name, description: description, userID: userId);
+    String panelID,
+  ) async {
+    final newPanel = PanelRow(panelID: panelID);
     try {
       await Amplify.DataStore.save(newPanel);
     } catch (e) {

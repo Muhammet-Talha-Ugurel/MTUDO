@@ -23,11 +23,13 @@ class PanelRowState {
   }
 }
 
+class LoadPanelRowState extends PanelRowState {}
+
 class LoadingPanelRowState extends PanelRowState {}
 
 class LoadedPanelRowState extends PanelRowState {
-  List<PanelRow> panelsRow;
-  LoadedPanelRowState({required this.panelsRow});
+  List<PanelRow> panelRows;
+  LoadedPanelRowState({required this.panelRows});
 }
 
 class FaildToLoadPanelRowState extends PanelRowState {

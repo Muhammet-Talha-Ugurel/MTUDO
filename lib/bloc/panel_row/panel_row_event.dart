@@ -3,7 +3,10 @@ part of 'panel_row_bloc.dart';
 @immutable
 abstract class PanelRowEvent {}
 
-class LoadPanelRowEvent extends PanelRowEvent {}
+class LoadPanelRowEvent extends PanelRowEvent {
+  final Panel panel;
+  LoadPanelRowEvent(this.panel);
+}
 
 class UpdatePanelRowEvent extends PanelRowEvent {}
 
